@@ -1,1 +1,1 @@
-export const GEARLOCK_SERVER_IMAGE_NAME = "xshkut/gearlock";
+export const GEARLOCK_SERVER_IMAGE_NAME = "gearlock/gearlock";

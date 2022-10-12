@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Code,
   Flex,
@@ -14,8 +13,8 @@ import {
   useClipboard,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { GEARLOCK_SERVER_IMAGE_NAME } from "../constants";
+import { CopyIcon, CheckIcon } from "@chakra-ui/icons";
 
 export const Help = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -56,6 +55,7 @@ export const Help = () => {
                 <CopyButton text={connString} />
               </Flex>
             </CodeBlock>
+            <Text>After that, add locks with resources and try them out</Text>
           </ModalBody>
           <ModalFooter />
         </ModalContent>
@@ -77,8 +77,7 @@ const CopyButton = (props: { text: string }) => {
 
   return (
     <Button variant={"unstyled"} onClick={onCopy} ml={2}>
-      {hasCopied ? "✅" : "📋"}
+      {hasCopied ? <CheckIcon /> : <CopyIcon />}
     </Button>
   );
 };
-// docker run -it --rm -p 9009:9009 xshkut/gearlock
