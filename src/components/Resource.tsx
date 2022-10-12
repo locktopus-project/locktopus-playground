@@ -1,36 +1,35 @@
-import { EditIcon, ViewIcon } from "@chakra-ui/icons";
+import { AddIcon, EditIcon, ViewIcon } from "@chakra-ui/icons";
 import { Badge, HStack, IconButton } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { DEFAULT_RESOURCE_WRITE } from "../constants";
 import { ResourceRef } from "../types";
-import { AddSegmentButton } from "./AddSegmentButton";
 import { PathSegment } from "./PathSegment";
 
 export const Resource = (props: {
   onChange: (resource: ResourceRef) => void;
 }) => {
   const { onChange } = props;
-  const [write, setWrite] = useState(true);
+  const [isWrite, setIsWrite] = useState(DEFAULT_RESOURCE_WRITE);
   const [segments, setSegments] = useState<string[]>([]);
 
   useEffect(() => {
     onChange({
-      write,
+      write: isWrite,
       path: segments,
     });
-  }, [write, segments, onChange]);
+  }, [isWrite, segments, onChange]);
 
-  const toggleButton = write ? (
+  const toggleButton = isWrite ? (
     <IconButton
       aria-label="write"
       icon={<ViewIcon />}
-      onClick={() => setWrite(false)}
+      onClick={() => setIsWrite(false)}
     />
   ) : (
     <IconButton
       aria-label="write"
       icon={<EditIcon />}
-      onClick={() => setWrite(true)}
-      value="awd"
+      onClick={() => setIsWrite(true)}
     />
   );
 
@@ -38,8 +37,8 @@ export const Resource = (props: {
     <HStack maxW={"80vw"} overflowX="auto">
       <HStack>
         {toggleButton}
-        <Badge variant={"subtle"}>{write ? "WRITE" : "READ"}</Badge>
-        {segments.map((segment, i) => (
+        <Badge variant={"subtle"}>{isWrite ? "WRITE" : "READ"}</Badge>
+        {segments.map((_, i) => (
           <PathSegment
             key={i}
             onChange={(value) => {
@@ -61,5 +60,21 @@ export const Resource = (props: {
 
       <AddSegmentButton onClick={() => setSegments([...segments, ""])} />
     </HStack>
+  );
+};
+
+const AddSegmentButton = (props: { onClick: Function }) => {
+  return (
+    <IconButton
+      aria-label="Add segment"
+      icon={<AddIcon />}
+      variant="ghost"
+      ml={"0px"}
+      onClick={() => {
+        props.onClick();
+      }}
+    >
+      +
+    </IconButton>
   );
 };

@@ -25,8 +25,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { remove, RootState } from "../store";
 import { ResourceRef } from "../types";
-import { AddResourceButton } from "./AddResourceButton";
-import { DeleteResourcePath } from "./DeleteResourcePath";
 import { Resource } from "./Resource";
 
 export const Session = (props: { id: number }) => {
@@ -166,12 +164,66 @@ export const Session = (props: { id: number }) => {
     </Button>
   );
 
+  const progress = (
+    <Progress
+      isIndeterminate={connState === CLIENT_STATE.ENQUEUED || lockLoading}
+      value={100}
+      colorScheme={
+        connState === CLIENT_STATE.NOT_CONNECTED
+          ? "blackAlpha"
+          : connError
+          ? "red"
+          : connState === CLIENT_STATE.ACQUIRED
+          ? "green"
+          : "gray"
+      }
+    />
+  );
+
+  const lockButton = (
+    <Button
+      variant={"ghost"}
+      leftIcon={<LockIcon />}
+      onClick={onLock}
+      isDisabled={connState !== CLIENT_STATE.READY}
+    >
+      Lock
+    </Button>
+  );
+
+  const releaseButton = (
+    <Button
+      variant={"ghost"}
+      onClick={onRelease}
+      leftIcon={<LockIcon />}
+      isDisabled={
+        connState !== CLIENT_STATE.ACQUIRED &&
+        connState !== CLIENT_STATE.ENQUEUED
+      }
+    >
+      Release
+    </Button>
+  );
+
+  const closeSegmentButton = (
+    <IconButton
+      aria-label="close segment"
+      textColor={"red.500"}
+      variant="outline"
+      disabled={connState !== CLIENT_STATE.NOT_CONNECTED}
+      icon={<CloseIcon />}
+      onClick={() => {
+        dispatch(remove(props.id));
+      }}
+    />
+  );
+
   return (
     <Box rounded={10} borderColor="gray" borderWidth={1} p={0}>
       <VStack align={"start"} p={4}>
-        {resourceKeys.map((key, i) => (
+        {resourceKeys.map((key) => (
           <HStack key={key}>
-            <DeleteResourcePath
+            <DeleteResourcePathButton
               isActive={resourceKeys.length > 1}
               onClick={() => {
                 setResourceKeys((keys) => keys.filter((k) => k !== key));
@@ -186,19 +238,7 @@ export const Session = (props: { id: number }) => {
           </HStack>
         ))}
       </VStack>
-      <Progress
-        isIndeterminate={connState === CLIENT_STATE.ENQUEUED || lockLoading}
-        value={100}
-        colorScheme={
-          connState === CLIENT_STATE.NOT_CONNECTED
-            ? "blackAlpha"
-            : connError
-            ? "red"
-            : connState === CLIENT_STATE.ACQUIRED
-            ? "green"
-            : "gray"
-        }
-      />
+      {progress}
       {connError && (
         <Text color="red.400" maxW="full" overflowX={"auto"}>
           {connError}
@@ -213,38 +253,42 @@ export const Session = (props: { id: number }) => {
         <Spacer />
         <ButtonGroup isAttached>
           {connectButton}
-          <Button
-            variant={"ghost"}
-            leftIcon={<LockIcon />}
-            onClick={onLock}
-            isDisabled={connState !== CLIENT_STATE.READY}
-          >
-            Lock
-          </Button>
-          <Button
-            variant={"ghost"}
-            onClick={onRelease}
-            leftIcon={<LockIcon />}
-            isDisabled={
-              connState !== CLIENT_STATE.ACQUIRED &&
-              connState !== CLIENT_STATE.ENQUEUED
-            }
-          >
-            Release
-          </Button>
-
-          <IconButton
-            aria-label="close segment"
-            textColor={"red.500"}
-            variant="outline"
-            disabled={connState !== CLIENT_STATE.NOT_CONNECTED}
-            icon={<CloseIcon />}
-            onClick={() => {
-              dispatch(remove(props.id));
-            }}
-          />
+          {lockButton}
+          {releaseButton}
+          {closeSegmentButton}
         </ButtonGroup>
       </HStack>
     </Box>
+  );
+};
+
+const DeleteResourcePathButton = (props: {
+  onClick: Function;
+  isActive: boolean;
+}) => {
+  return (
+    <IconButton
+      aria-label="Delete path"
+      icon={<CloseIcon />}
+      variant="outline"
+      color="red.200"
+      onClick={() => {
+        props.onClick();
+      }}
+      isDisabled={!props.isActive}
+    />
+  );
+};
+
+const AddResourceButton = (props: { onClick: Function }) => {
+  return (
+    <Button
+      variant="outline"
+      onClick={() => {
+        props.onClick();
+      }}
+    >
+      + Resource
+    </Button>
   );
 };

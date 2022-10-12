@@ -54,7 +54,7 @@ export const ConnectionStatus = () => {
         return;
       }
 
-      refetch({}).catch((err: any) => {});
+      refetch({}).catch(() => {});
     }, 1000);
 
     return () => {
