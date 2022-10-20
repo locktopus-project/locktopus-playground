@@ -1,7 +1,7 @@
 import { AddIcon, EditIcon, ViewIcon } from "@chakra-ui/icons";
 import { Badge, HStack, IconButton } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { DEFAULT_RESOURCE_WRITE } from "../constants";
+import { DEFAULT_RESOURCE_WRITE, DEFAULT_SEGMENT_INPUT } from "../constants";
 import { ResourceRef } from "../types";
 import { PathSegment } from "./PathSegment";
 
@@ -58,7 +58,9 @@ export const Resource = (props: {
         ))}
       </HStack>
 
-      <AddSegmentButton onClick={() => setSegments([...segments, ""])} />
+      <AddSegmentButton
+        onClick={() => setSegments([...segments, DEFAULT_SEGMENT_INPUT])}
+      />
     </HStack>
   );
 };
