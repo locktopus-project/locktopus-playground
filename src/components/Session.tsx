@@ -16,11 +16,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import {
-  GearlockClient,
+  LocktopusClient,
   CLIENT_STATE,
   Resource as LockResource,
   LOCK_TYPE,
-} from "gearlock-client";
+} from "locktopus-client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { remove, RootState } from "../store";
@@ -32,7 +32,7 @@ export const Session = (props: { id: number }) => {
   const serverAddress = useSelector((store: RootState) => store.serverAddress);
 
   const nextResourceKey = useRef(0);
-  const gearlockClientRef = useRef<GearlockClient>();
+  const locktopusClientRef = useRef<LocktopusClient>();
   const resources = useRef(new Map<number, ResourceRef>());
 
   const [resourceKeys, setResourceKeys] = useState<number[]>([
@@ -45,14 +45,14 @@ export const Session = (props: { id: number }) => {
   );
   const [lockLoading, setLockLoading] = useState(false);
 
-  const gearlockClient = gearlockClientRef.current;
+  const locktopusClient = locktopusClientRef.current;
 
   useEffect(() => {
     return () => {
-      if (gearlockClient?.getState() === CLIENT_STATE.NOT_CONNECTED) return;
-      gearlockClient?.close();
+      if (locktopusClient?.getState() === CLIENT_STATE.NOT_CONNECTED) return;
+      locktopusClient?.close();
     };
-  }, [gearlockClient]);
+  }, [locktopusClient]);
 
   const onConnect = useCallback(() => {
     if (!serverAddress) {
@@ -62,12 +62,12 @@ export const Session = (props: { id: number }) => {
 
     setIsConnecting(true);
 
-    gearlockClientRef.current = new GearlockClient(WebSocket, serverAddress);
+    locktopusClientRef.current = new LocktopusClient(WebSocket, serverAddress);
 
-    gearlockClientRef.current
+    locktopusClientRef.current
       .connect()
       .then(() => {
-        const state = gearlockClientRef.current!.getState();
+        const state = locktopusClientRef.current!.getState();
         setConnState(state);
         setConnError(undefined);
         setIsConnecting(false);
@@ -79,19 +79,19 @@ export const Session = (props: { id: number }) => {
   }, [serverAddress]);
 
   const onDisconnect = useCallback(() => {
-    if (!gearlockClientRef.current) {
+    if (!locktopusClientRef.current) {
       return;
     }
 
-    gearlockClientRef.current.close();
+    locktopusClientRef.current.close();
 
-    gearlockClientRef.current = undefined;
+    locktopusClientRef.current = undefined;
     setConnError(undefined);
     setConnState(CLIENT_STATE.NOT_CONNECTED);
   }, []);
 
   const onLock = useCallback(() => {
-    const client = gearlockClientRef.current;
+    const client = locktopusClientRef.current;
 
     if (!client) {
       return;
@@ -123,7 +123,7 @@ export const Session = (props: { id: number }) => {
   }, []);
 
   const onRelease = useCallback(() => {
-    const client = gearlockClientRef.current;
+    const client = locktopusClientRef.current;
 
     if (!client) {
       return;

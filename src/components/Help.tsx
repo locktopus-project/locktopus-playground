@@ -13,12 +13,12 @@ import {
   useClipboard,
   useDisclosure,
 } from "@chakra-ui/react";
-import { GEARLOCK_SERVER_IMAGE_NAME } from "../constants";
+import { LOCKTOPUS_SERVER_IMAGE_NAME } from "../constants";
 import { CopyIcon, CheckIcon } from "@chakra-ui/icons";
 
 export const Help = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const runCommand = `docker run -it --rm -p 9009:9009 ${GEARLOCK_SERVER_IMAGE_NAME}`;
+  const runCommand = `docker run -it --rm -p 9009:9009 ${LOCKTOPUS_SERVER_IMAGE_NAME}`;
   const connString = `ws://127.0.0.1:9009/v1?namespace=default`;
 
   return (
@@ -28,11 +28,11 @@ export const Help = () => {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Welcome to Gearlock Playground</ModalHeader>
+          <ModalHeader>Welcome to LOCKTOPUS Playground</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text>
-              Run local instance of Gearlock Server using ths command:
+              Run local instance of LOCKTOPUS Server using ths command:
             </Text>
             <CodeBlock>
               <Flex

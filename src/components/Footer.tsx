@@ -4,7 +4,7 @@ export const Footer = () => {
   const footerBar = (
     <Flex flexDirection={"column"} alignItems="center" w="full">
       <HStack p={4} gap={16} wrap="wrap">
-        <Text>Gearlock Playground</Text>
+        <Text>Locktopus Playground</Text>
         <HStack>
           <Text>Build with</Text>
           <Link color="teal.500" href="https://chakra-ui.com" target="_blank">
