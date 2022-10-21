@@ -13,7 +13,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  OrderedList,
   Text,
   useClipboard,
   useDisclosure,
@@ -25,9 +24,7 @@ import {
   ArrowRightIcon,
   LockIcon,
   UnlockIcon,
-  CloseIcon,
   SmallCloseIcon,
-  PlusSquareIcon,
   AddIcon,
 } from "@chakra-ui/icons";
 
@@ -40,7 +37,7 @@ export const Help = () => {
     <>
       <Button onClick={onOpen}>Help</Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="4xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Welcome to Locktopus Playground</ModalHeader>
@@ -78,7 +75,7 @@ export const Help = () => {
               How to use
             </Heading>
             <Text pb={2}>
-              Create multiple connections to test how locked resources interfere
+              Create multiple Sessions to test how locked resources interfere
               with each other. For each connection, follow these steps:
             </Text>
             <List>
@@ -105,7 +102,7 @@ export const Help = () => {
               </ListItem>
               <ListItem>
                 <ListIcon as={SmallCloseIcon} color="yellow.500" />
-                Disconnect when you are done (though isn't necessary)
+                Disconnect when you are done
               </ListItem>
             </List>
           </ModalBody>
