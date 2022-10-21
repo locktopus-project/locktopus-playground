@@ -1,11 +1,12 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import {
+  Box,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DEFAULT_SEGMENT_INPUT } from "../constants";
 
 export const PathSegment = (props: {
@@ -14,28 +15,43 @@ export const PathSegment = (props: {
 }) => {
   const [input, setInput] = useState(DEFAULT_SEGMENT_INPUT);
 
+  const [width, setWidth] = useState(0);
+  const span = useRef<any>();
+
+  useEffect(() => {
+    if (!span.current) return;
+
+    setWidth(span.current.offsetWidth);
+  }, [input]);
+
   return (
-    <InputGroup>
-      <Input
-        ml={0}
-        w={`${input.length + 4 + Number(!!props.close) * 2}ch`}
-        type="text"
-        variant={"outline"}
-        onChange={(e) => {
-          setInput(e.target.value);
-        }}
-        value={input}
-      />
-      {props.close && (
-        <InputRightElement>
-          <DeleteSegmentButton
-            close={() => {
-              props.close!();
-            }}
-          />
-        </InputRightElement>
-      )}
-    </InputGroup>
+    <Box>
+      <Box ref={span} visibility="hidden" h={0} w="fit-content" bgColor={"red"}>
+        {input}
+        <DeleteSegmentButton close={() => {}} />
+      </Box>
+      <InputGroup>
+        <Input
+          ml={0}
+          w={`${width + 40}px`}
+          type="text"
+          variant={"outline"}
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+          value={input}
+        />
+        {props.close && (
+          <InputRightElement>
+            <DeleteSegmentButton
+              close={() => {
+                props.close!();
+              }}
+            />
+          </InputRightElement>
+        )}
+      </InputGroup>
+    </Box>
   );
 };
 
