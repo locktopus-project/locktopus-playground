@@ -10,6 +10,18 @@ import { ConnectionStatus } from "./ConnectionStatus";
 export const Header = () => {
   const dispatch = useDispatch();
 
+  const addSessionBtn = (
+    <Button
+      leftIcon={<AddIcon />}
+      variant="outline"
+      onClick={() => {
+        dispatch(create());
+      }}
+    >
+      Session
+    </Button>
+  );
+
   return (
     <Flex
       p={4}
@@ -21,16 +33,7 @@ export const Header = () => {
     >
       <AddressBar />
       <ConnectionStatus />
-      <Button
-        leftIcon={<AddIcon />}
-        variant="outline"
-        onClick={() => {
-          dispatch(create());
-        }}
-      >
-        Lock
-      </Button>
-
+      {addSessionBtn}
       <Spacer />
       <Help />
       <ColorModeSwitcher />
