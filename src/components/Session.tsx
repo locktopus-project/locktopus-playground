@@ -3,6 +3,7 @@ import {
   CloseIcon,
   LockIcon,
   SmallCloseIcon,
+  UnlockIcon,
 } from "@chakra-ui/icons";
 import {
   Box,
@@ -195,7 +196,7 @@ export const Session = (props: { id: number }) => {
     <Button
       variant={"ghost"}
       onClick={onRelease}
-      leftIcon={<LockIcon />}
+      leftIcon={<UnlockIcon />}
       isDisabled={
         connState !== CLIENT_STATE.ACQUIRED &&
         connState !== CLIENT_STATE.ENQUEUED
