@@ -22,13 +22,13 @@ export const Resource = (props: {
   const toggleButton = isWrite ? (
     <IconButton
       aria-label="write"
-      icon={<ViewIcon />}
+      icon={<EditIcon />}
       onClick={() => setIsWrite(false)}
     />
   ) : (
     <IconButton
       aria-label="write"
-      icon={<EditIcon />}
+      icon={<ViewIcon />}
       onClick={() => setIsWrite(true)}
     />
   );
