@@ -28,11 +28,11 @@ export const Help = () => {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Welcome to LOCKTOPUS Playground</ModalHeader>
+          <ModalHeader>Welcome to Locktopus Playground</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text>
-              Run local instance of LOCKTOPUS Server using ths command:
+              Run local instance of Locktopus Server using ths command:
             </Text>
             <CodeBlock>
               <Flex
