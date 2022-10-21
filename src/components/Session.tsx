@@ -1,7 +1,9 @@
 import {
   ArrowRightIcon,
   CloseIcon,
+  InfoIcon,
   LockIcon,
+  RepeatClockIcon,
   SmallCloseIcon,
   UnlockIcon,
 } from "@chakra-ui/icons";
@@ -9,11 +11,19 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Divider,
   HStack,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Progress,
   Spacer,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import {
@@ -46,6 +56,14 @@ export const Session = (props: { id: number }) => {
   );
   const [lockLoading, setLockLoading] = useState(false);
 
+  let [history, setHistory] = useState<string[]>([]);
+
+  const {
+    isOpen: isHistoryOpen,
+    onOpen: onHistoryOpen,
+    onClose: onHistoryClose,
+  } = useDisclosure();
+
   const locktopusClient = locktopusClientRef.current;
 
   useEffect(() => {
@@ -72,10 +90,15 @@ export const Session = (props: { id: number }) => {
         setConnState(state);
         setConnError(undefined);
         setIsConnecting(false);
+        setHistory((history) => [...history, `Connected to ${serverAddress}`]);
       })
       .catch((err) => {
         setConnError(`Connection failed: ${err}`);
         setIsConnecting(false);
+        setHistory((history) => [
+          ...history,
+          `Connection failed to ${serverAddress}`,
+        ]);
       });
   }, [serverAddress]);
 
@@ -89,7 +112,8 @@ export const Session = (props: { id: number }) => {
     locktopusClientRef.current = undefined;
     setConnError(undefined);
     setConnState(CLIENT_STATE.NOT_CONNECTED);
-  }, []);
+    setHistory((history) => [...history, `Disconnected from ${serverAddress}`]);
+  }, [serverAddress]);
 
   const onLock = useCallback(() => {
     const client = locktopusClientRef.current;
@@ -98,8 +122,6 @@ export const Session = (props: { id: number }) => {
       return;
     }
 
-    setLockLoading(true);
-
     const lockResources: LockResource[] = Array.from(
       resources.current.values(),
     ).map((r) => ({
@@ -107,19 +129,29 @@ export const Session = (props: { id: number }) => {
       type: r.write ? LOCK_TYPE.WRITE : LOCK_TYPE.READ,
     }));
 
+    setHistory((history) => [
+      ...history,
+      `Locking:\n ${JSON.stringify(lockResources, undefined, "\t")}`,
+    ]);
+
+    setLockLoading(true);
+
     client
       .lock(...lockResources)
       .then(() => {
         setLockLoading(false);
         setConnState(client.getState());
+        setHistory((history) => [...history, `Lock enqueued`]);
 
         return client.acquire();
       })
       .then(() => {
         setConnState(client.getState());
+        setHistory((history) => [...history, `Lock acquired`]);
       })
       .catch((err) => {
         setConnError(`Lock failed: ${err}`);
+        setHistory((history) => [...history, `Lock errored: ${err}`]);
       });
   }, []);
 
@@ -138,6 +170,7 @@ export const Session = (props: { id: number }) => {
       .catch((err) => {
         setConnError(`Release failed: ${err}`);
         setConnState(client.getState());
+        setHistory((history) => [...history, `Lock released: ${err}`]);
       });
   }, []);
 
@@ -219,6 +252,15 @@ export const Session = (props: { id: number }) => {
     />
   );
 
+  const historyButton = (
+    <IconButton
+      aria-label="history"
+      variant="ghost"
+      icon={<RepeatClockIcon />}
+      onClick={onHistoryOpen}
+    />
+  );
+
   return (
     <Box rounded={10} borderColor="gray" borderWidth={1} p={0}>
       <VStack align={"start"} p={4}>
@@ -256,9 +298,16 @@ export const Session = (props: { id: number }) => {
           {connectButton}
           {lockButton}
           {releaseButton}
+          {historyButton}
           {closeSegmentButton}
         </ButtonGroup>
       </HStack>
+
+      <HistoryDrawer
+        history={history}
+        isOpen={isHistoryOpen}
+        onClose={onHistoryClose}
+      />
     </Box>
   );
 };
@@ -291,5 +340,34 @@ const AddResourceButton = (props: { onClick: Function }) => {
     >
       + Resource
     </Button>
+  );
+};
+
+const HistoryDrawer = (props: {
+  isOpen: boolean;
+  onClose: () => void;
+  history: string[];
+}) => {
+  const isEmpty = props.history.length === 0 || null;
+
+  return (
+    <Modal isOpen={props.isOpen} onClose={props.onClose} size="6xl">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Session History</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {isEmpty && <Text>(History is emtpy)</Text>}
+          <VStack align={"start"}>
+            {props.history.map((h, i) => (
+              <Box w="full">
+                <Text key={i}>{h}</Text>
+                <Divider />
+              </Box>
+            ))}
+          </VStack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
