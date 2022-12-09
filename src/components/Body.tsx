@@ -1,4 +1,4 @@
-import { Box, Flex, Img, Wrap, WrapItem } from "@chakra-ui/react";
+import { Box, Flex, Wrap, WrapItem } from "@chakra-ui/react";
 import { useSize } from "@chakra-ui/react-use-size";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";

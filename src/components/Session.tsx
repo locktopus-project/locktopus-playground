@@ -1,11 +1,9 @@
 import {
   ArrowBackIcon,
   ArrowForwardIcon,
-  ArrowLeftIcon,
   ArrowRightIcon,
   ChatIcon,
   CloseIcon,
-  InfoIcon,
   LockIcon,
   RepeatClockIcon,
   SmallCloseIcon,

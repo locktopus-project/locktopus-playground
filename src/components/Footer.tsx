@@ -1,12 +1,4 @@
-import {
-  Box,
-  HStack,
-  Link,
-  Flex,
-  Text,
-  Divider,
-  Stack,
-} from "@chakra-ui/layout";
+import { Box, HStack, Link, Flex, Text, Divider } from "@chakra-ui/layout";
 
 export const Footer = () => {
   const footerBar = (
