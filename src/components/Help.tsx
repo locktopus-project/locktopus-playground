@@ -31,7 +31,7 @@ import {
 export const Help = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const runCommand = `docker run -it --rm -p 9009:9009 ${LOCKTOPUS_SERVER_IMAGE_NAME}`;
-  const connString = `ws://127.0.0.1:9009/v1?namespace=default`;
+  const connString = `ws://127.0.0.1:9009/v1?namespace=default&abandon-timeout-ms=5000`;
 
   return (
     <>

@@ -24,6 +24,13 @@ export const AddressBar = () => {
         return false;
       }
 
+      if (url.searchParams.has("abandon-timeout-ms")) {
+        const abandonTimeout = url.searchParams.has("abandon-timeout-ms");
+
+        if (!Number.isInteger(abandonTimeout) || Number(abandonTimeout) < 0)
+          return false;
+      }
+
       return true;
     } catch (err) {
       return false;

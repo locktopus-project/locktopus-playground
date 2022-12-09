@@ -181,7 +181,7 @@ export const Session = (props: { id: number }) => {
       variant={"ghost"}
       leftIcon={<SmallCloseIcon />}
       onClick={onDisconnect}
-      colorScheme={"orange"}
+      colorScheme={"red"}
     >
       Disconnect
     </Button>
@@ -192,7 +192,7 @@ export const Session = (props: { id: number }) => {
       onClick={onConnect}
       isLoading={isConnecting}
       loadingText="Connecting"
-      colorScheme={"green"}
+      colorScheme={"blue"}
     >
       {"Connect"}
     </Button>
@@ -209,7 +209,9 @@ export const Session = (props: { id: number }) => {
           ? "red"
           : connState === CLIENT_STATE.ACQUIRED
           ? "green"
-          : "gray"
+          : connState === CLIENT_STATE.ENQUEUED
+          ? "orange"
+          : "blue"
       }
     />
   );
@@ -220,6 +222,7 @@ export const Session = (props: { id: number }) => {
       leftIcon={<LockIcon />}
       onClick={onLock}
       isDisabled={connState !== CLIENT_STATE.READY}
+      colorScheme={"green"}
     >
       Lock
     </Button>
@@ -234,6 +237,7 @@ export const Session = (props: { id: number }) => {
         connState !== CLIENT_STATE.ACQUIRED &&
         connState !== CLIENT_STATE.ENQUEUED
       }
+      colorScheme={"blue"}
     >
       Release
     </Button>
@@ -262,7 +266,13 @@ export const Session = (props: { id: number }) => {
   );
 
   return (
-    <Box rounded={10} borderColor="gray" borderWidth={1} p={0}>
+    <Box
+      rounded={10}
+      borderColor="gray"
+      borderWidth={1}
+      p={0}
+      backdropFilter={"brightness(0.1)"}
+    >
       <VStack align={"start"} p={4}>
         {resourceKeys.map((key) => (
           <HStack key={key}>

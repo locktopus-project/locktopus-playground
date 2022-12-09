@@ -4,7 +4,7 @@ import { theme as defaultTheme } from "@chakra-ui/theme";
 
 const theme = extendTheme({
   config: {
-    initialColorMode: "system",
+    initialColorMode: "dark",
     useSystemColorMode: false,
   },
   colors: { ...defaultTheme.colors, ...colors },

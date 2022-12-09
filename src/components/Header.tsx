@@ -1,5 +1,4 @@
 import { Button, Flex, Spacer } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { AddressBar } from "./AddressBar";
 import { Help } from "./Help";
 import { AddIcon } from "@chakra-ui/icons";
@@ -36,7 +35,7 @@ export const Header = () => {
       {addSessionBtn}
       <Spacer />
       <Help />
-      <ColorModeSwitcher />
+      {/* <ColorModeSwitcher /> */}
     </Flex>
   );
 };

@@ -1,9 +1,17 @@
-import { Box, HStack, Link, Flex, Text, Divider } from "@chakra-ui/layout";
+import {
+  Box,
+  HStack,
+  Link,
+  Flex,
+  Text,
+  Divider,
+  Stack,
+} from "@chakra-ui/layout";
 
 export const Footer = () => {
   const footerBar = (
-    <Flex flexDirection={"column"} alignItems="center" w="full">
-      <HStack p={4} gap={16} wrap="wrap">
+    <Flex flexDirection={"column"} alignItems="center" w="full" p={4}>
+      <HStack wrap="wrap" gap={2}>
         <Text>Locktopus Playground</Text>
         <HStack>
           <Text>Build with</Text>
