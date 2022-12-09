@@ -25,10 +25,17 @@ export const AddressBar = () => {
       }
 
       if (url.searchParams.has("abandon-timeout-ms")) {
-        const abandonTimeout = url.searchParams.has("abandon-timeout-ms");
+        const abandonTimeout = Number(
+          url.searchParams.get("abandon-timeout-ms"),
+        );
 
-        if (!Number.isInteger(abandonTimeout) || Number(abandonTimeout) < 0)
+        if (!Number.isInteger(abandonTimeout)) {
           return false;
+        }
+
+        if (Number(abandonTimeout) < 0) {
+          return false;
+        }
       }
 
       return true;
