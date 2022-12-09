@@ -1,5 +1,9 @@
 import {
+  ArrowBackIcon,
+  ArrowForwardIcon,
+  ArrowLeftIcon,
   ArrowRightIcon,
+  ChatIcon,
   CloseIcon,
   InfoIcon,
   LockIcon,
@@ -57,11 +61,20 @@ export const Session = (props: { id: number }) => {
   const [lockLoading, setLockLoading] = useState(false);
 
   let [history, setHistory] = useState<string[]>([]);
+  let [messages, setMessages] = useState<
+    { message: string; incoming: boolean; date: Date }[]
+  >([]);
 
   const {
     isOpen: isHistoryOpen,
     onOpen: onHistoryOpen,
     onClose: onHistoryClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isMessagesOpen,
+    onOpen: onMessagesOpen,
+    onClose: onMessagesClose,
   } = useDisclosure();
 
   const locktopusClient = locktopusClientRef.current;
@@ -91,6 +104,15 @@ export const Session = (props: { id: number }) => {
         setConnError(undefined);
         setIsConnecting(false);
         setHistory((history) => [...history, `Connected to ${serverAddress}`]);
+        setMessages([]);
+
+        locktopusClientRef.current?.onMessage((msg) => {
+          const incoming = msg.direction === "in";
+          setMessages((messages) => [
+            ...messages,
+            { message: msg.data, incoming, date: new Date() },
+          ]);
+        });
       })
       .catch((err) => {
         setConnError(`Connection failed: ${err}`);
@@ -265,6 +287,15 @@ export const Session = (props: { id: number }) => {
     />
   );
 
+  const messagesButton = (
+    <IconButton
+      aria-label="messages"
+      variant="ghost"
+      icon={<ChatIcon />}
+      onClick={onMessagesOpen}
+    />
+  );
+
   return (
     <Box
       rounded={10}
@@ -309,6 +340,7 @@ export const Session = (props: { id: number }) => {
           {lockButton}
           {releaseButton}
           {historyButton}
+          {messagesButton}
           {closeSegmentButton}
         </ButtonGroup>
       </HStack>
@@ -317,6 +349,12 @@ export const Session = (props: { id: number }) => {
         history={history}
         isOpen={isHistoryOpen}
         onClose={onHistoryClose}
+      />
+
+      <MessagesDrawer
+        messages={messages}
+        isOpen={isMessagesOpen}
+        onClose={onMessagesClose}
       />
     </Box>
   );
@@ -372,6 +410,44 @@ const HistoryDrawer = (props: {
             {props.history.map((h, i) => (
               <Box w="full">
                 <Text key={i}>{h}</Text>
+                <Divider />
+              </Box>
+            ))}
+          </VStack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+const MessagesDrawer = (props: {
+  isOpen: boolean;
+  onClose: () => void;
+  messages: {
+    message: string;
+    incoming: boolean;
+  }[];
+}) => {
+  const isEmpty = props.messages.length === 0 || null;
+
+  return (
+    <Modal isOpen={props.isOpen} onClose={props.onClose} size="6xl">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Communication History</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {isEmpty && <Text>(Communication history is emtpy)</Text>}
+          <VStack align={"start"}>
+            {props.messages.map((h, i) => (
+              <Box w="full">
+                <HStack>
+                  {h.incoming && <ArrowBackIcon />}
+                  <Text key={i}>
+                    {JSON.stringify(JSON.parse(h.message), null, 2)}
+                  </Text>
+                  {!h.incoming && <ArrowForwardIcon />}
+                </HStack>
                 <Divider />
               </Box>
             ))}
