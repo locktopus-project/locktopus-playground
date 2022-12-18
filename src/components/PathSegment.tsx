@@ -22,11 +22,13 @@ export const PathSegment = (props: {
     if (!span.current) return;
 
     setWidth(span.current.offsetWidth);
-  }, [input]);
+    props.onChange(input);
+  }, [input, props]);
 
   return (
     <Box>
-      <Box ref={span} visibility="hidden" h={0} w="fit-content" bgColor={"red"}>
+      {/* Invisible component to stretch parent's width */}
+      <Box ref={span} visibility="hidden" h={0} w="fit-content">
         {input}
         <DeleteSegmentButton close={() => {}} />
       </Box>
