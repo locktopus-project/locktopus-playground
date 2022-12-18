@@ -4,7 +4,16 @@ export const Footer = () => {
   const footerBar = (
     <Flex flexDirection={"column"} alignItems="center" w="full" p={4}>
       <HStack wrap="wrap" gap={2}>
-        <Text>Locktopus Playground</Text>
+        <HStack>
+          <Link
+            color="teal.500"
+            href="https://github.com/locktopus-project/locktopus-server"
+            target="_blank"
+          >
+            Locktopus
+          </Link>
+          <Text>Playground</Text>
+        </HStack>
         <HStack>
           <Text>Build with</Text>
           <Link color="teal.500" href="https://chakra-ui.com" target="_blank">
@@ -18,7 +27,12 @@ export const Footer = () => {
   return (
     <Box>
       <Box visibility={"hidden"}>{footerBar}</Box>
-      <Box w="full" position={"fixed"} bottom="0px">
+      <Box
+        w="full"
+        position={"fixed"}
+        bottom="0px"
+        backdropFilter={"brightness(0.3)"}
+      >
         <Divider />
         {footerBar}
       </Box>
