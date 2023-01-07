@@ -12,9 +12,11 @@ data "aws_iam_policy_document" "bucket_access" {
       "s3:PutObject",
       "s3:GetObject",
       "s3:DeleteObject",
+      "s3:ListBucket",
     ]
     resources = [
       "arn:aws:s3:::${var.AWS_STATIC_BUCKET_NAME}/*",
+      "arn:aws:s3:::${var.AWS_STATIC_BUCKET_NAME}",
     ]
 
     principals {

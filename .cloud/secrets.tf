@@ -28,3 +28,7 @@ resource "github_actions_secret" "AWS_CLOUDFRONT_DISTRIBUTION_ID" {
   secret_name     = "AWS_CLOUDFRONT_DISTRIBUTION_ID"
   plaintext_value = aws_cloudfront_distribution.cdn.id
 }
+
+output "secret_AWS_ACCESS_KEY" {
+  value =  aws_iam_access_key.s3_user.id
+}
