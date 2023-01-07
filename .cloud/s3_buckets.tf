@@ -5,29 +5,15 @@ resource "aws_s3_bucket" "s3_static_bucket" {
   force_destroy = true
 }
 
-# Create iam for accessing s3 buckets
-
-resource "aws_iam_user" "s3_user" {
-  name = "api-user-for-deploy"
-}
-
-resource "aws_iam_access_key" "s3_user" {
-  user = aws_iam_user.s3_user.name
-}
-
 data "aws_iam_policy_document" "bucket_access" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:ListBucket",
-      "s3:GetBucketLocation",
       "s3:PutObject",
       "s3:GetObject",
       "s3:DeleteObject",
-
     ]
     resources = [
-      "arn:aws:s3:::${var.AWS_STATIC_BUCKET_NAME}",
       "arn:aws:s3:::${var.AWS_STATIC_BUCKET_NAME}/*",
     ]
 
@@ -57,3 +43,5 @@ output "s3_user_secret_access_key" {
   value     = aws_iam_access_key.s3_user.secret
   sensitive = true
 }
+
+

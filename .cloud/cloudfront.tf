@@ -90,3 +90,23 @@ resource "aws_s3_bucket_policy" "example" {
   bucket = aws_s3_bucket.s3_static_bucket.id
   policy = data.aws_iam_policy_document.s3_policy.json
 }
+
+# Allow cloudfront distribution invalidation
+
+resource "aws_iam_user_policy" "cloudfront_invalidation" {
+  name   = "cloudfront_invalidation"
+  user   = aws_iam_user.s3_user.name
+  policy = data.aws_iam_policy_document.cloudfront_invalidation.json
+}
+
+data "aws_iam_policy_document" "cloudfront_invalidation" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "cloudfront:CreateInvalidation",
+    ]
+    resources = [
+      aws_cloudfront_distribution.cdn.arn,
+    ]
+  }
+}
