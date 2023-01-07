@@ -23,14 +23,8 @@ resource "github_actions_secret" "AWS_S3_BUCKET" {
   plaintext_value = aws_s3_bucket.s3_static_bucket.id
 }
 
-output "access_key_for_gh_secret" {
-  value = aws_iam_access_key.s3_user.id
-}
-
-output "region_for_gh_secret" {
-  value = var.AWS_REGION
-}
-
-output "s3_bucket_for_gh_secret" {
-  value = aws_s3_bucket.s3_static_bucket.id
+resource "github_actions_secret" "AWS_CLOUDFRONT_DISTRIBUTION_ID" {
+  repository      = var.GH_REPO_NAME
+  secret_name     = "AWS_CLOUDFRONT_DISTRIBUTION_ID"
+  plaintext_value = aws_cloudfront_distribution.cdn.id
 }
