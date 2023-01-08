@@ -9,7 +9,7 @@ import { ConnectionStatus } from "./ConnectionStatus";
 export const Header = () => {
   const dispatch = useDispatch();
 
-  const addSessionBtn = (
+  const addConnectionBtn = (
     <Button
       leftIcon={<AddIcon />}
       variant="outline"
@@ -17,7 +17,7 @@ export const Header = () => {
         dispatch(create());
       }}
     >
-      Session
+      Connection
     </Button>
   );
 
@@ -32,7 +32,7 @@ export const Header = () => {
     >
       <AddressBar />
       <ConnectionStatus />
-      {addSessionBtn}
+      {addConnectionBtn}
       <Spacer />
       <Help />
       {/* <ColorModeSwitcher /> */}

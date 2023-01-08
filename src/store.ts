@@ -14,41 +14,41 @@ const serverAddress = createSlice({
   },
 });
 
-type Session = {
+type Connection = {
   id: number;
 };
 
-export const sessions = createSlice({
-  name: "sessions",
+export const connections = createSlice({
+  name: "connections",
   initialState: {
     lastId: 0,
-    sessions: [] as Session[],
+    connections: [] as Connection[],
   },
   reducers: {
     create: (state, action: PayloadAction) => {
-      const session: Session = {
+      const connection: Connection = {
         id: state.lastId + 1,
       };
 
       return {
         lastId: state.lastId + 1,
-        sessions: [...state.sessions, session],
+        connections: [...state.connections, connection],
       };
     },
     remove: (state, action: PayloadAction<number>) => {
       return {
         lastId: state.lastId,
-        sessions: state.sessions.filter((s) => s.id !== action.payload),
+        connections: state.connections.filter((s) => s.id !== action.payload),
       };
     },
   },
 });
 
 export const { set: setServerAddress } = serverAddress.actions;
-export const { create, remove } = sessions.actions;
+export const { create, remove } = connections.actions;
 
 export const store = configureStore({
-  reducer: { serverAddress: serverAddress.reducer, locks: sessions.reducer },
+  reducer: { serverAddress: serverAddress.reducer, locks: connections.reducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

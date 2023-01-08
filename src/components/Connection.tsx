@@ -40,7 +40,7 @@ import { remove, RootState } from "../store";
 import { ResourceRef } from "../types";
 import { Resource } from "./Resource";
 
-export const Session = (props: { id: number }) => {
+export const Connection = (props: { id: number }) => {
   const dispatch = useDispatch();
   const serverAddress = useSelector((store: RootState) => store.serverAddress);
 
@@ -343,13 +343,13 @@ export const Session = (props: { id: number }) => {
         </ButtonGroup>
       </HStack>
 
-      <HistoryDrawer
+      <ActionsHistoryDrawer
         history={history}
         isOpen={isHistoryOpen}
         onClose={onHistoryClose}
       />
 
-      <MessagesDrawer
+      <MessageHistoryDrawer
         messages={messages}
         isOpen={isMessagesOpen}
         onClose={onMessagesClose}
@@ -389,7 +389,7 @@ const AddResourceButton = (props: { onClick: Function }) => {
   );
 };
 
-const HistoryDrawer = (props: {
+const ActionsHistoryDrawer = (props: {
   isOpen: boolean;
   onClose: () => void;
   history: string[];
@@ -400,7 +400,7 @@ const HistoryDrawer = (props: {
     <Modal isOpen={props.isOpen} onClose={props.onClose} size="6xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Session History</ModalHeader>
+        <ModalHeader>Actions History</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {isEmpty && <Text>(History is emtpy)</Text>}
@@ -418,7 +418,7 @@ const HistoryDrawer = (props: {
   );
 };
 
-const MessagesDrawer = (props: {
+const MessageHistoryDrawer = (props: {
   isOpen: boolean;
   onClose: () => void;
   messages: {

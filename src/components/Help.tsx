@@ -43,11 +43,11 @@ export const Help = () => {
           <ModalHeader>Welcome to Locktopus Playground</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Heading pb={4} size="lg">
+            <Heading p={4} size="lg" textAlign={"center"}>
               How to setup
             </Heading>
             <Text>
-              Run local instance of Locktopus Server using ths command:
+              1. Run local instance of Locktopus Server using ths command:
             </Text>
             <CodeBlock>
               <Flex
@@ -59,7 +59,7 @@ export const Help = () => {
                 <CopyButton text={runCommand} />
               </Flex>
             </CodeBlock>
-            <Text>Then, use its address for connection:</Text>
+            <Text>2. Then, use its address for connection:</Text>
             <CodeBlock>
               <Flex
                 flexDirection={"row"}
@@ -70,12 +70,12 @@ export const Help = () => {
                 <CopyButton text={connString} />
               </Flex>
             </CodeBlock>
-            <Text>Ensure the server is reachable (status ONLINE)</Text>
-            <Heading pb={4} size="lg">
+            <Text>3. Ensure the server is reachable (status ONLINE)</Text>
+            <Heading p={4} size="lg" textAlign={"center"}>
               How to use
             </Heading>
             <Text pb={2}>
-              Create multiple Sessions to test how locked resources interfere
+              Create multiple Connections to test how locked resources interfere
               with each other. For each connection, follow these steps:
             </Text>
             <List>
