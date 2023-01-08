@@ -35,6 +35,7 @@ terraform.rc
 
 .terraform.lock.hcl
 
-./cloud/backend.hcl
+backend.hcl
+
 
 .env
