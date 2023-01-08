@@ -1,3 +1,3 @@
 # LOCKTOPUS PLAYGROUND
 
-... WIP ...
+This repo contains the code of [Locktopus Playground](https://playground.locktopus.xyz)
