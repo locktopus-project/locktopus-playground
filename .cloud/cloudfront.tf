@@ -73,24 +73,6 @@ resource "aws_cloudfront_origin_access_identity" "cdn_identity" {
   comment = "Cloudfront CDN identity"
 }
 
-data "aws_iam_policy_document" "s3_policy" {
-  statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.s3_static_bucket.arn}/*"]
-    sid       = "1"
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.cdn_identity.iam_arn]
-    }
-  }
-}
-
-resource "aws_s3_bucket_policy" "example" {
-  bucket = aws_s3_bucket.s3_static_bucket.id
-  policy = data.aws_iam_policy_document.s3_policy.json
-}
-
 # Allow cloudfront distribution invalidation
 
 resource "aws_iam_user_policy" "cloudfront_invalidation" {

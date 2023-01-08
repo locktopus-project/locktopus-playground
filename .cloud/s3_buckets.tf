@@ -12,16 +12,28 @@ data "aws_iam_policy_document" "bucket_access" {
       "s3:PutObject",
       "s3:GetObject",
       "s3:DeleteObject",
-      "s3:ListBucket",
+      "s3:ListBucket"
     ]
     resources = [
-      "arn:aws:s3:::${var.AWS_STATIC_BUCKET_NAME}/*",
-      "arn:aws:s3:::${var.AWS_STATIC_BUCKET_NAME}",
+      "${aws_s3_bucket.s3_static_bucket.arn}/*",
+      "${aws_s3_bucket.s3_static_bucket.arn}",
     ]
 
     principals {
       type        = "AWS"
       identifiers = [aws_iam_user.s3_user.arn]
+    }
+  }
+
+  statement {
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.s3_static_bucket.arn}/*"]
+    # sid       = "1"
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.cdn_identity.iam_arn]
     }
   }
 }
@@ -30,8 +42,6 @@ resource "aws_s3_bucket_policy" "allow_deploy_access" {
   bucket = aws_s3_bucket.s3_static_bucket.id
   policy = data.aws_iam_policy_document.bucket_access.json
 }
-
-#  output access key id and secret key
 
 output "s3_bucket" {
   value = aws_s3_bucket.s3_static_bucket.id

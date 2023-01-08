@@ -15,13 +15,12 @@ resource "aws_route53_record" "main_certificate_validation_cname" {
 }
 
 resource "aws_route53_record" "dns_cdn_record" {
-  zone_id = data.aws_route53_zone.domain_zone.zone_id
-  name    = ""
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.cdn.domain_name
-    zone_id                = aws_cloudfront_distribution.cdn.hosted_zone_id
-    evaluate_target_health = true
-  }
+  zone_id         = data.aws_route53_zone.domain_zone.zone_id
+  name            = "playground"
+  type            = "CNAME"
+  records         = [aws_cloudfront_distribution.cdn.domain_name]
+  ttl             = 300
+  allow_overwrite = true
 }
+
+
