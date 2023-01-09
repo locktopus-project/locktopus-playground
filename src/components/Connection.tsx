@@ -322,7 +322,15 @@ export const Connection = (props: { id: number }) => {
       </VStack>
       {progress}
       {connError && (
-        <Text color="red.400" maxW="full" overflowX={"auto"}>
+        <Text
+          color="red.400"
+          maxW="full"
+          overflowX={"auto"}
+          pb={1}
+          pl={2}
+          pr={2}
+          pt={1}
+        >
           {connError}
         </Text>
       )}
