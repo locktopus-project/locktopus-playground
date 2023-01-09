@@ -1,3 +1,3 @@
 # LOCKTOPUS PLAYGROUND
 
-This repo contains the code of [Locktopus Playground](https://playground.locktopus.xyz)
+This repo contains the code for [Locktopus Playground](https://playground.locktopus.xyz)
