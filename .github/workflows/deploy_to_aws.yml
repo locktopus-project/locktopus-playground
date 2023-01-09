@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 18.x
       - run: npm ci
       - run: npm run build
       - uses: TimekillerTK/s3-sync-action@master
