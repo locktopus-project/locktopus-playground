@@ -1,5 +1,5 @@
 {
-  "name": "locktopus-playground",
+  "name": "@locktopus/playground",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
