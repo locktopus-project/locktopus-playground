@@ -33,7 +33,7 @@ import {
   CLIENT_STATE,
   Resource as LockResource,
   LOCK_TYPE,
-} from "locktopus-client";
+} from "@locktopus/client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { remove, RootState } from "../store";
