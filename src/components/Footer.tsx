@@ -5,11 +5,7 @@ export const Footer = () => {
     <Flex flexDirection={"column"} alignItems="center" w="full" p={4}>
       <HStack wrap="wrap" gap={2}>
         <HStack>
-          <Link
-            color="teal.500"
-            href="https://github.com/locktopus-project/locktopus-server"
-            target="_blank"
-          >
+          <Link color="teal.500" href="https://locktopus.xyz" target="_blank">
             Locktopus
           </Link>
           <Text>Playground</Text>
