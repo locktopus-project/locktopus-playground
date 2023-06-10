@@ -11,7 +11,7 @@ export const Footer = () => {
           <Text>Playground</Text>
         </HStack>
         <HStack>
-          <Text>Build with</Text>
+          <Text>Built with</Text>
           <Link color="teal.500" href="https://chakra-ui.com" target="_blank">
             Chakra UI
           </Link>
