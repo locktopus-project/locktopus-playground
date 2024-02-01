@@ -10,7 +10,9 @@ terraform {
     }
   }
 
-  backend "remote" {}
+  backend "local" {
+    path = "./terraform.tfstate"
+  }
 }
 
 provider "aws" {
